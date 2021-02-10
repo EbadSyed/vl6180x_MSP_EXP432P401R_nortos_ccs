@@ -1,7 +1,7 @@
 ******************************************************************************
                   TI ARM Linker PC v20.2.2                     
 ******************************************************************************
->> Linked Wed Feb 10 15:06:11 2021
+>> Linked Wed Feb 10 15:11:19 2021
 
 OUTPUT FILE NAME:   <vl6180x_MSP_EXP432P401R_nortos_ccs.out>
 ENTRY POINT SYMBOL: "resetISR"  address: 000045c9
@@ -11,7 +11,7 @@ MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  MAIN                  00000000   00040000  00004bf5  0003b40b  R  X
+  MAIN                  00000000   00040000  00004bfd  0003b403  R  X
   INFO                  00200000   00004000  00000000  00004000  R  X
   SRAM_CODE             01000000   00010000  00009aee  00006512  RW X
   SRAM_DATA             20000000   00010000  00009aee  00006512  RW  
@@ -21,11 +21,11 @@ SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    00004bf8   00004bf8    r-x
+00000000    00000000    00004c00   00004c00    r-x
   00000000    00000000    00000144   00000144    r-- .intvecs
   00000144    00000144    000047a4   000047a4    r-x .text
   000048e8    000048e8    00000245   00000245    r-- .const
-  00004b30    00004b30    000000c8   000000c8    r-- .cinit
+  00004b30    00004b30    000000d0   000000d0    r-- .cinit
 20000000    20000000    00008a06   00000000    rw-
   20000000    20000000    00008000   00000000    rw- .sysmem
   20008000    20008000    000006f0   00000000    rw- .bss
@@ -287,12 +287,14 @@ section   page    origin      length       input sections
                   00004b26    00000004     drivers_msp432p401x.aem4f : UARTMSP432.oem4f (.const:stopBits)
                   00004b2a    00000003     ti_drivers_config.obj (.const)
 
-.cinit     0    00004b30    000000c8     
-                  00004b30    00000094     (.cinit..data.load) [load image, compression = lzss]
-                  00004bc4    0000000c     (__TI_handler_table)
-                  00004bd0    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  00004bd8    00000008     (.cinit..vtable.load) [load image, compression = zero_init]
-                  00004be0    00000018     (__TI_cinit_table)
+.cinit     0    00004b30    000000d0     
+                  00004b30    00000095     (.cinit..data.load) [load image, compression = lzss]
+                  00004bc5    00000003     --HOLE-- [fill = 0]
+                  00004bc8    0000000c     (__TI_handler_table)
+                  00004bd4    00000004     --HOLE-- [fill = 0]
+                  00004bd8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  00004be0    00000008     (.cinit..vtable.load) [load image, compression = zero_init]
+                  00004be8    00000018     (__TI_cinit_table)
 
 .init_array 
 *          0    00000000    00000000     UNINITIALIZED
@@ -446,22 +448,22 @@ MODULE SUMMARY
                                                              
        Heap:                        0       0         65536  
        Stack:                       0       0         8192   
-       Linker Generated:            0       200       0      
+       Linker Generated:            0       201       0      
     +--+----------------------------+-------+---------+---------+
-       Grand Total:                 18337   1105      79318  
+       Grand Total:                 18337   1106      79318  
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00004be0 records: 3, size/record: 8, table size: 24
-	.data: load addr=00004b30, load size=00000094 bytes, run addr=200086f0, run size=00000316 bytes, compression=lzss
-	.bss: load addr=00004bd0, load size=00000008 bytes, run addr=20008000, run size=000006f0 bytes, compression=zero_init
-	.vtable: load addr=00004bd8, load size=00000008 bytes, run addr=20008c00, run size=000000e8 bytes, compression=zero_init
+__TI_cinit_table @ 00004be8 records: 3, size/record: 8, table size: 24
+	.data: load addr=00004b30, load size=00000095 bytes, run addr=200086f0, run size=00000316 bytes, compression=lzss
+	.bss: load addr=00004bd8, load size=00000008 bytes, run addr=20008000, run size=000006f0 bytes, compression=zero_init
+	.vtable: load addr=00004be0, load size=00000008 bytes, run addr=20008c00, run size=000000e8 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00004bc4 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 00004bc8 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -640,10 +642,10 @@ address   name
 20010000  __STACK_END                       
 00001000  __STACK_SIZE                      
 00008000  __SYSMEM_SIZE                     
-00004be0  __TI_CINIT_Base                   
-00004bf8  __TI_CINIT_Limit                  
-00004bc4  __TI_Handler_Table_Base           
-00004bd0  __TI_Handler_Table_Limit          
+00004be8  __TI_CINIT_Base                   
+00004c00  __TI_CINIT_Limit                  
+00004bc8  __TI_Handler_Table_Base           
+00004bd4  __TI_Handler_Table_Limit          
 00003d8d  __TI_auto_init_nobinit_nopinit    
 00003695  __TI_decompress_lzss              
 000047e1  __TI_decompress_none              
@@ -935,10 +937,10 @@ address   name
 00004b2b  I2C_count                         
 00004b2c  UART_count                        
 00004b30  __TI_static_base__                
-00004bc4  __TI_Handler_Table_Base           
-00004bd0  __TI_Handler_Table_Limit          
-00004be0  __TI_CINIT_Base                   
-00004bf8  __TI_CINIT_Limit                  
+00004bc8  __TI_Handler_Table_Base           
+00004bd4  __TI_Handler_Table_Limit          
+00004be8  __TI_CINIT_Base                   
+00004c00  __TI_CINIT_Limit                  
 00008000  __SYSMEM_SIZE                     
 20000000  __start___llvm_prf_cnts           
 20000000  __stop___llvm_prf_cnts            

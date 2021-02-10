@@ -39,7 +39,8 @@ GPIO2.gpioPin.$assign = "boosterpack.11";
 GPIO3.$name           = "CONFIG_GPIO_1";
 GPIO3.gpioPin.$assign = "boosterpack.31";
 
-GPIO4.$name = "CONFIG_GPIO_2";
+GPIO4.$name           = "CONFIG_GPIO_2";
+GPIO4.gpioPin.$assign = "boosterpack.3";
 
 I2C1.$name = "CONFIG_I2C_0";
 
@@ -63,7 +64,6 @@ Display1.uart.uart.$suggestSolution       = "EUSCI_A0";
 Display1.uart.uart.txPin.$suggestSolution = "7";
 Display1.uart.uart.rxPin.$suggestSolution = "6";
 GPIO1.gpioPin.$suggestSolution            = "4";
-GPIO4.gpioPin.$suggestSolution            = "expansion.28";
 I2C1.i2c.$suggestSolution                 = "EUSCI_B2";
 I2C1.i2c.sdaPin.$suggestSolution          = "boosterpack.38";
 I2C1.i2c.sclPin.$suggestSolution          = "boosterpack.34";
