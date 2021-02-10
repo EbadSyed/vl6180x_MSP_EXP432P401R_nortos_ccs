@@ -63,6 +63,12 @@ const uint_least8_t Display_count = 1;
 GPIO_PinConfig gpioPinConfigs[] = {
     /* CONFIG_GPIO_LED_0 : LaunchPad LED 1 Red */
     GPIOMSP432_P1_0 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW,
+    /* CONFIG_GPIO_0 */
+    GPIOMSP432_P3_6 | GPIO_CFG_IN_NOPULL | GPIO_CFG_IN_INT_NONE,
+    /* CONFIG_GPIO_1 */
+    GPIOMSP432_P3_7 | GPIO_CFG_IN_NOPULL | GPIO_CFG_IN_INT_NONE,
+    /* CONFIG_GPIO_2 */
+    GPIOMSP432_P10_1 | GPIO_CFG_IN_NOPULL | GPIO_CFG_IN_INT_NONE,
 };
 
 /*
@@ -76,6 +82,12 @@ GPIO_PinConfig gpioPinConfigs[] = {
 GPIO_CallbackFxn gpioCallbackFunctions[] = {
     /* CONFIG_GPIO_LED_0 : LaunchPad LED 1 Red */
     NULL,
+    /* CONFIG_GPIO_0 */
+    NULL,
+    /* CONFIG_GPIO_1 */
+    NULL,
+    /* CONFIG_GPIO_2 */
+    NULL,
 };
 
 /*
@@ -84,8 +96,8 @@ GPIO_CallbackFxn gpioCallbackFunctions[] = {
 const GPIOMSP432_Config GPIOMSP432_config = {
     .pinConfigs = (GPIO_PinConfig *)gpioPinConfigs,
     .callbacks = (GPIO_CallbackFxn *)gpioCallbackFunctions,
-    .numberOfPinConfigs = 1,
-    .numberOfCallbacks = 1,
+    .numberOfPinConfigs = 4,
+    .numberOfCallbacks = 4,
     .intPriority = (~0)
 };
 
@@ -159,15 +171,13 @@ const uint_least8_t I2C_count = CONFIG_I2C_COUNT;
 
 #include <ti/drivers/Power.h>
 #include <ti/drivers/power/PowerMSP432.h>
-extern void PowerMSP432_initPolicy(void);
-extern void PowerMSP432_sleepPolicy(void);
 
 const PowerMSP432_ConfigV1 PowerMSP432_config = {
-    .policyInitFxn         = PowerMSP432_initPolicy,
-    .policyFxn             = PowerMSP432_sleepPolicy,
-    .initialPerfLevel      = 2,
-    .enablePolicy          = true,
-    .enablePerf            = true,
+    .policyInitFxn         = NULL,
+    .policyFxn             = NULL,
+    .initialPerfLevel      = 0,
+    .enablePolicy          = false,
+    .enablePerf            = false,
     .enableParking         = false,
     .resumeShutdownHookFxn = NULL,
     .customPerfLevels      = NULL,
@@ -201,9 +211,6 @@ UARTMSP432_Object uartMSP432Objects[CONFIG_UART_COUNT];
 static const UARTMSP432_BaudrateConfig uartMSP432Baudrates[] = {
     /* {baudrate, input clock, prescalar, UCBRFx, UCBRSx, oversampling} */
     { 115200, 3000000, 1, 10, 0, 1 },
-    { 115200, 6000000, 3, 4, 2, 1 },
-    { 115200, 12000000, 6, 8, 32, 1 },
-    { 115200, 24000000, 13, 0, 37, 1 },
 };
 
 static unsigned char uartMSP432RingBuffer0[32];
