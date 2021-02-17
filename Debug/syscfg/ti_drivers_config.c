@@ -69,6 +69,8 @@ GPIO_PinConfig gpioPinConfigs[] = {
     GPIOMSP432_P3_7 | GPIO_CFG_IN_NOPULL | GPIO_CFG_IN_INT_NONE,
     /* CONFIG_GPIO_2 */
     GPIOMSP432_P3_2 | GPIO_CFG_IN_NOPULL | GPIO_CFG_IN_INT_NONE,
+    /* CONFIG_GPIO_3 */
+    GPIOMSP432_P3_3 | GPIO_CFG_IN_NOPULL | GPIO_CFG_IN_INT_NONE,
 };
 
 /*
@@ -88,6 +90,8 @@ GPIO_CallbackFxn gpioCallbackFunctions[] = {
     NULL,
     /* CONFIG_GPIO_2 */
     NULL,
+    /* CONFIG_GPIO_3 */
+    NULL,
 };
 
 /*
@@ -96,8 +100,8 @@ GPIO_CallbackFxn gpioCallbackFunctions[] = {
 const GPIOMSP432_Config GPIOMSP432_config = {
     .pinConfigs = (GPIO_PinConfig *)gpioPinConfigs,
     .callbacks = (GPIO_CallbackFxn *)gpioCallbackFunctions,
-    .numberOfPinConfigs = 4,
-    .numberOfCallbacks = 4,
+    .numberOfPinConfigs = 5,
+    .numberOfCallbacks = 5,
     .intPriority = (~0)
 };
 

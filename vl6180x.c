@@ -493,6 +493,7 @@ void *mainThread(void *arg0)
     GPIO_setConfig(CONFIG_GPIO_0, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
     GPIO_setConfig(CONFIG_GPIO_1, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
     GPIO_setConfig(CONFIG_GPIO_2, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
+    GPIO_setConfig(CONFIG_GPIO_3, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
 
     while (1) {
         GPIO_toggle(CONFIG_GPIO_LED_0);
@@ -540,6 +541,18 @@ void *mainThread(void *arg0)
 
         Display_printf(display, 0, 0, "Sensor3  %d --- %d",status3,range3);
 
+        GPIO_setConfig(CONFIG_GPIO_3, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
+
+        VL6180X_init(i2c0);
+        VL6180X_configureDefault(i2c0);
+
+        VL6180X_startRange(i2c0);
+        uint8_t range4 = VL6180X_readRange(i2c0);
+        uint8_t status4 = VL6180X_readRangeStatus(i2c0);
+
+        GPIO_setConfig(CONFIG_GPIO_3, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
+
+        Display_printf(display, 0, 0, "Sensor4  %d --- %d",status4,range4);
 
 
     }

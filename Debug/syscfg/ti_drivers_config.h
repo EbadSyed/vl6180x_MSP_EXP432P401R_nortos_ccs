@@ -38,6 +38,8 @@ extern "C" {
 #define CONFIG_GPIO_1               2
 /* P3.2 */
 #define CONFIG_GPIO_2               3
+/* P3.3 */
+#define CONFIG_GPIO_3               4
 
 /* LEDs are active high */
 #define CONFIG_GPIO_LED_ON  (1)

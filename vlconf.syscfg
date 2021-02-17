@@ -17,6 +17,7 @@ const GPIO1    = GPIO.addInstance();
 const GPIO2    = GPIO.addInstance();
 const GPIO3    = GPIO.addInstance();
 const GPIO4    = GPIO.addInstance();
+const GPIO5    = GPIO.addInstance();
 const I2C      = scripting.addModule("/ti/drivers/I2C", {}, false);
 const I2C1     = I2C.addInstance();
 const I2C2     = I2C.addInstance();
@@ -41,6 +42,9 @@ GPIO3.gpioPin.$assign = "boosterpack.31";
 
 GPIO4.$name           = "CONFIG_GPIO_2";
 GPIO4.gpioPin.$assign = "boosterpack.3";
+
+GPIO5.$name           = "CONFIG_GPIO_3";
+GPIO5.gpioPin.$assign = "boosterpack.4";
 
 I2C1.$name = "CONFIG_I2C_0";
 
