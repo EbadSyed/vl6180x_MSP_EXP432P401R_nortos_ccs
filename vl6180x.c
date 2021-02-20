@@ -214,6 +214,7 @@ uint8_t readReg(uint16_t reg,I2C_Handle i2c)
          retVal = I2C_transfer(i2c, &i2cTransaction);
     } while(!retVal);
 
+    //retVal = I2C_transfer(i2c, &i2cTransaction);
     return readBuffer[0];
 
 }
@@ -270,11 +271,12 @@ uint8_t readReg16Bit(uint16_t reg,I2C_Handle i2c)
     i2cTransaction.readBuf = readBuffer;    /* Buffer to be read */
     i2cTransaction.readCount = 2;           /* Number of bytes to be read */
 
-    /* Re-try writing to slave till I2C_transfer returns true */
-    do {
-         retVal = I2C_transfer(i2c, &i2cTransaction);
-    } while(!retVal);
+//    /* Re-try writing to slave till I2C_transfer returns true */
+//    do {
+//         retVal = I2C_transfer(i2c, &i2cTransaction);
+//    } while(!retVal);
 
+    retVal = I2C_transfer(i2c, &i2cTransaction);
     uint16_t value;
 
     value = readBuffer[0] << 8;
@@ -511,8 +513,8 @@ void *mainThread(void *arg0)
         GPIO_setConfig(CONFIG_GPIO_0, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
 
         Display_printf(display, 0, 0, "Sensor1  %d --- %d",status1,range1);
-
-
+//
+//
         GPIO_setConfig(CONFIG_GPIO_1, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
         VL6180X_init(i2c1);
         VL6180X_configureDefault(i2c1);
@@ -524,9 +526,7 @@ void *mainThread(void *arg0)
 
         Display_printf(display, 0, 0, "Sensor2  %d --- %d",status2,range2);
 
-
-        for(i = 0; i < 100000; i++){
-               }
+//
 
         GPIO_setConfig(CONFIG_GPIO_2, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
 
@@ -540,6 +540,9 @@ void *mainThread(void *arg0)
         GPIO_setConfig(CONFIG_GPIO_2, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
 
         Display_printf(display, 0, 0, "Sensor3  %d --- %d",status3,range3);
+
+       for(i = 0; i < 100000; i++){
+                       }
 
         GPIO_setConfig(CONFIG_GPIO_3, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
 
