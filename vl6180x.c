@@ -40,6 +40,7 @@
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/I2C.h>
 #include <ti/display/Display.h>
+#include <ti/drivers/Watchdog.h>
 
 /* Driver Configuration */
 #include "ti_drivers_config.h"
@@ -57,6 +58,8 @@ uint8_t writeBuffer[10];
 uint8_t readBuffer[10];
 
 bool retVal = false;
+
+#define TIMEOUT_MS      1
 
 #define TASKSTACKSIZE       640
 
@@ -447,6 +450,21 @@ uint8_t VL6180X_readRangeStatus(I2C_Handle i2c) {
   return (readReg(VL6180X_REG_RESULT_RANGE_STATUS,i2c) >> 4);
 }
 
+/*
+ *  ======== watchdogCallback ========
+ */
+void watchdogCallback(uintptr_t watchdogHandle)
+{
+    /*
+     * If the Watchdog Non-Maskable Interrupt (NMI) is called,
+     * loop until the device resets. Some devices will invoke
+     * this callback upon watchdog expiration while others will
+     * reset. See the device specific watchdog driver documentation
+     * for your device.
+     */
+    while (1) {}
+}
+
 
 /*
  *  ======== mainThread ========
@@ -456,9 +474,27 @@ void *mainThread(void *arg0)
 
     i2cTransaction.slaveAddress = 0x29;
 
+    Watchdog_Handle watchdogHandle;
+    Watchdog_Params params;
+    uint32_t        reloadValue;
+
     Display_init();
+    Watchdog_init();
     GPIO_init();
     I2C_init();
+
+    /* Open a Watchdog driver instance */
+    Watchdog_Params_init(&params);
+    params.callbackFxn = (Watchdog_Callback) watchdogCallback;
+    params.debugStallMode = Watchdog_DEBUG_STALL_ON;
+    params.resetMode = Watchdog_RESET_ON;
+
+    watchdogHandle = Watchdog_open(CONFIG_WATCHDOG_0, &params);
+    if (watchdogHandle == NULL) {
+        /* Error opening Watchdog */
+        while (1) {}
+    }
+
 
     /* Open the HOST display for output */
     display = Display_open(Display_Type_UART, NULL);
@@ -488,6 +524,26 @@ void *mainThread(void *arg0)
             Display_printf(display, 0, 0, "I2C Initialized Bus 0!\n");
      }
 
+/*
+     * The watchdog reload value is initialized during the
+     * Watchdog_open() call. The reload value can also be
+     * set dynamically during runtime.
+     *
+     * Converts TIMEOUT_MS to watchdog clock ticks.
+     * This API is not applicable for all devices.
+     * See the device specific watchdog driver documentation
+     * for your device.
+     */
+    reloadValue = Watchdog_convertMsToTicks(watchdogHandle, TIMEOUT_MS);
+
+    /*
+     * A value of zero (0) indicates the converted value exceeds 32 bits
+     * OR that the API is not applicable for this specific device.
+     */
+    if (reloadValue != 0) {
+        Watchdog_setReload(watchdogHandle, reloadValue);
+    }
+
 
     GPIO_setConfig(CONFIG_GPIO_LED_0, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
     GPIO_write(CONFIG_GPIO_LED_0, CONFIG_GPIO_LED_ON);
@@ -500,8 +556,8 @@ void *mainThread(void *arg0)
     while (1) {
         GPIO_toggle(CONFIG_GPIO_LED_0);
         int i;
-        for(i = 0; i < 100000; i++){
-        }
+
+        Watchdog_clear(watchdogHandle);
 
         GPIO_setConfig(CONFIG_GPIO_0, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
         VL6180X_init(i2c1);
@@ -513,6 +569,8 @@ void *mainThread(void *arg0)
         GPIO_setConfig(CONFIG_GPIO_0, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
 
         Display_printf(display, 0, 0, "Sensor1  %d --- %d",status1,range1);
+
+        Watchdog_clear(watchdogHandle);
 //
 //
         GPIO_setConfig(CONFIG_GPIO_1, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
@@ -525,6 +583,8 @@ void *mainThread(void *arg0)
         GPIO_setConfig(CONFIG_GPIO_1, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
 
         Display_printf(display, 0, 0, "Sensor2  %d --- %d",status2,range2);
+
+        Watchdog_clear(watchdogHandle);
 
 //
 
@@ -541,8 +601,7 @@ void *mainThread(void *arg0)
 
         Display_printf(display, 0, 0, "Sensor3  %d --- %d",status3,range3);
 
-       for(i = 0; i < 100000; i++){
-                       }
+        Watchdog_clear(watchdogHandle);
 
         GPIO_setConfig(CONFIG_GPIO_3, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
 
@@ -556,6 +615,8 @@ void *mainThread(void *arg0)
         GPIO_setConfig(CONFIG_GPIO_3, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
 
         Display_printf(display, 0, 0, "Sensor4  %d --- %d",status4,range4);
+
+        Watchdog_clear(watchdogHandle);
 
 
     }

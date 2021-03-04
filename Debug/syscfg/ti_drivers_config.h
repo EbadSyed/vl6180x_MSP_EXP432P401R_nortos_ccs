@@ -97,6 +97,13 @@ extern "C" {
 
 
 /*
+ *  ======== Watchdog ========
+ */
+
+#define CONFIG_WATCHDOG_0           0
+
+
+/*
  *  ======== Board_init ========
  *  Perform all required TI-Drivers initialization
  *
