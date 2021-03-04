@@ -20,6 +20,8 @@ vl6180x.obj: /home/ebad/ti/ccs1020/ccs/tools/compiler/ti-cgt-arm_20.2.2.LTS/incl
 vl6180x.obj: /home/ebad/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/display/Display.h
 vl6180x.obj: /home/ebad/ti/ccs1020/ccs/tools/compiler/ti-cgt-arm_20.2.2.LTS/include/stdarg.h
 vl6180x.obj: /home/ebad/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/drivers/Watchdog.h
+vl6180x.obj: /home/ebad/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/drivers/watchdog/WatchdogMSP432.h
+vl6180x.obj: /home/ebad/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/drivers/dpl/HwiP.h
 vl6180x.obj: /home/ebad/vl6180x_MSP_EXP432P401R_nortos_ccs/Debug/syscfg/ti_drivers_config.h
 vl6180x.obj: /home/ebad/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/devices/DeviceFamily.h
 
@@ -43,5 +45,7 @@ vl6180x.obj: /home/ebad/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/devices/
 /home/ebad/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/display/Display.h: 
 /home/ebad/ti/ccs1020/ccs/tools/compiler/ti-cgt-arm_20.2.2.LTS/include/stdarg.h: 
 /home/ebad/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/drivers/Watchdog.h: 
+/home/ebad/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/drivers/watchdog/WatchdogMSP432.h: 
+/home/ebad/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/drivers/dpl/HwiP.h: 
 /home/ebad/vl6180x_MSP_EXP432P401R_nortos_ccs/Debug/syscfg/ti_drivers_config.h: 
 /home/ebad/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/devices/DeviceFamily.h: 
