@@ -491,20 +491,20 @@ void *mainThread(void *arg0)
 
     i2c1 = I2C_open(CONFIG_I2C_1, &i2cParams);
     if (i2c1 == NULL) {
-        Display_printf(display, 0, 0, "Error Initializing I2C\n");
+//        Display_printf(display, 0, 0, "Error Initializing I2C\n");
         while (1);
     }
     else {
-        Display_printf(display, 0, 0, "I2C Initialized Bus 1!\n");
+//        Display_printf(display, 0, 0, "I2C Initialized Bus 1!\n");
     }
 
     i2c0 = I2C_open(CONFIG_I2C_0, &i2cParams);
     if (i2c0 == NULL) {
-            Display_printf(display, 0, 0, "Error Initializing I2C\n");
+//            Display_printf(display, 0, 0, "Error Initializing I2C\n");
             while (1);
      }
      else {
-            Display_printf(display, 0, 0, "I2C Initialized Bus 0!\n");
+//            Display_printf(display, 0, 0, "I2C Initialized Bus 0!\n");
      }
 
 
@@ -518,66 +518,48 @@ void *mainThread(void *arg0)
 
     while (1) {
         GPIO_toggle(CONFIG_GPIO_LED_0);
-        int i;
-
-
-        Watchdog_clear(watchdogHandle);
-        GPIO_setConfig(CONFIG_GPIO_0, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
-        VL6180X_init(i2c1);
-        VL6180X_configureDefault(i2c1);
-
-        VL6180X_startRange(i2c1);
-        uint8_t range1 = VL6180X_readRange(i2c1);
-        uint8_t status1 = VL6180X_readRangeStatus(i2c1);
-        GPIO_setConfig(CONFIG_GPIO_0, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
-
-        Display_printf(display, 0, 0, "Sensor1  %d --- %d",status1,range1);
-
-        Watchdog_clear(watchdogHandle);
-
-        GPIO_setConfig(CONFIG_GPIO_1, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
-        VL6180X_init(i2c1);
-        VL6180X_configureDefault(i2c1);
-
-        VL6180X_startRange(i2c1);
-        uint8_t range2 = VL6180X_readRange(i2c1);
-        uint8_t status2 = VL6180X_readRangeStatus(i2c1);
-        GPIO_setConfig(CONFIG_GPIO_1, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
-
-        Display_printf(display, 0, 0, "Sensor2  %d --- %d",status2,range2);
 
         Watchdog_clear(watchdogHandle);
 
         GPIO_setConfig(CONFIG_GPIO_2, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
+        GPIO_setConfig(CONFIG_GPIO_0, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
 
+        VL6180X_init(i2c1);
         VL6180X_init(i2c0);
+        VL6180X_configureDefault(i2c1);
         VL6180X_configureDefault(i2c0);
 
+        VL6180X_startRange(i2c1);
         VL6180X_startRange(i2c0);
+
+        uint8_t range1 = VL6180X_readRange(i2c1);
+        uint8_t status1 = VL6180X_readRangeStatus(i2c1);
         uint8_t range3 = VL6180X_readRange(i2c0);
         uint8_t status3 = VL6180X_readRangeStatus(i2c0);
 
+        GPIO_setConfig(CONFIG_GPIO_0, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
         GPIO_setConfig(CONFIG_GPIO_2, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
 
-        Display_printf(display, 0, 0, "Sensor3  %d --- %d",status3,range3);
-
-        Watchdog_clear(watchdogHandle);
-
         GPIO_setConfig(CONFIG_GPIO_3, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
+        GPIO_setConfig(CONFIG_GPIO_1, GPIO_CFG_INPUT | GPIO_CFG_IN_NOPULL );
 
+        VL6180X_init(i2c1);
         VL6180X_init(i2c0);
+        VL6180X_configureDefault(i2c1);
         VL6180X_configureDefault(i2c0);
-
+        VL6180X_startRange(i2c1);
         VL6180X_startRange(i2c0);
+
+        uint8_t range2 = VL6180X_readRange(i2c1);
+        uint8_t status2 = VL6180X_readRangeStatus(i2c1);
         uint8_t range4 = VL6180X_readRange(i2c0);
         uint8_t status4 = VL6180X_readRangeStatus(i2c0);
 
         GPIO_setConfig(CONFIG_GPIO_3, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
+        GPIO_setConfig(CONFIG_GPIO_1, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW );
 
-        Display_printf(display, 0, 0, "Sensor4  %d --- %d",status4,range4);
 
-        Watchdog_clear(watchdogHandle);
-
+        Display_printf(display, 0, 0, "%d,%d,%d,%d,%d,%d,%d,%d",status1,range1,status2,range2,status3,range3,status4,range4);
 
     }
 }
